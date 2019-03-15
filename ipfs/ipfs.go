@@ -15,6 +15,7 @@ import (
 	"strings"
 )
 
+// IPFS provides limited functionality to interact with the IPFS (https://ipfs.io)
 type IPFS struct {
 	url     string
 	httpcli *http.Client
@@ -181,19 +182,23 @@ func (r *request) Body(body io.Reader) *request {
 }
 
 func (r *request) Send(ctx context.Context) (resp *response, err error) {
-	reqBody, reqContentType, err := toMultipartFile(r.body)
+	mpf, err := toMultipartFile(r.body)
 	if err != nil {
 		return
 	}
 
-	req, err := http.NewRequest("POST", r.getURL(), reqBody)
+	var body io.Reader
+	if mpf != nil {
+		body = mpf.Body
+	}
+	req, err := http.NewRequest("POST", r.getURL(), body)
 	if err != nil {
 		return
 	}
 
 	req = req.WithContext(ctx)
-	if reqBody != nil {
-		req.Header.Set("Content-Type", reqContentType)
+	if mpf != nil {
+		req.Header.Set("Content-Type", mpf.ContentType)
 	}
 
 	res, err := r.c.Do(req)
@@ -241,6 +246,40 @@ func (r *request) Send(ctx context.Context) (resp *response, err error) {
 		resp.Output = res.Body
 	}
 
+	return
+}
+
+type multiPartFile struct {
+	ContentType string
+	Body        io.Reader
+}
+
+func toMultipartFile(f io.Reader) (mpf *multiPartFile, err error) {
+	if f == nil {
+		return
+	}
+
+	body := &bytes.Buffer{}
+	w := multipart.NewWriter(body)
+	part, err := w.CreateFormFile("file", "")
+	if err != nil {
+		return
+	}
+
+	_, err = io.Copy(part, f)
+	if err != nil {
+		return
+	}
+
+	err = w.Close()
+	if err != nil {
+		return
+	}
+
+	mpf = &multiPartFile{
+		ContentType: w.FormDataContentType(),
+		Body:        body,
+	}
 	return
 }
 
@@ -301,33 +340,6 @@ func (e *responseError) Error() string {
 		out = fmt.Sprintf("%s%d: ", out, e.Code)
 	}
 	return out + e.Message
-}
-
-func toMultipartFile(f io.Reader) (newBody io.Reader, contentType string, err error) {
-	if f == nil {
-		return
-	}
-
-	body := &bytes.Buffer{}
-	w := multipart.NewWriter(body)
-	part, err := w.CreateFormFile("file", "")
-	if err != nil {
-		return
-	}
-
-	_, err = io.Copy(part, f)
-	if err != nil {
-		return
-	}
-
-	err = w.Close()
-	if err != nil {
-		return
-	}
-
-	newBody = body
-	contentType = w.FormDataContentType()
-	return
 }
 
 func (r *request) getURL() string {
