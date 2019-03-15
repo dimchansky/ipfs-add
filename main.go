@@ -23,7 +23,7 @@ func run() error {
 	cfg := config.Parse()
 
 	c := ipfs.New(cfg.Node)
-	a := pathAdder{c, false}
+	a := pathAdder{c, cfg.HandleHiddenFiles}
 
 	ctx := context.Background()
 	for _, p := range cfg.Paths {

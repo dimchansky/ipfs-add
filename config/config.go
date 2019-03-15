@@ -7,25 +7,28 @@ import (
 )
 
 type Config struct {
-	Paths []string
-	Node  string
+	Paths             []string
+	Node              string
+	HandleHiddenFiles bool
 }
 
 func Parse() *Config {
 	cfg := &Config{
-		Node: "https://ipfs.infura.io:5001",
+		Node:              "https://ipfs.infura.io:5001",
+		HandleHiddenFiles: false,
 	}
 
-	flag.StringVar(&cfg.Node, "n", cfg.Node, "The url of IPFS node to use.")
+	flag.StringVar(&cfg.Node, "node", cfg.Node, "The url of IPFS node to use.")
+	flag.BoolVar(&cfg.HandleHiddenFiles, "H", cfg.HandleHiddenFiles, "Include files that are hidden. Only takes effect on directory add.")
 
 	flag.CommandLine.Usage = func() {
 		out := flag.CommandLine.Output()
 		_, _ = fmt.Fprintf(out, `USAGE:
-  %s: [options] <path>
+  %s: [options] <path>...
 
 ARGUMENTS
 
-  <path> - The path to a file to be added to ipfs.
+  <path>... - The path to a file to be added to ipfs.
 
 OPTIONS
 
@@ -34,8 +37,7 @@ OPTIONS
 		_, _ = fmt.Fprintf(out, `
 DESCRIPTION
 
-  Adds contents of <path> to ipfs. Use -r to add directories.
-  Note that directories are added recursively, to form the ipfs
+  Adds contents of <path> to ipfs. Note that directories are added recursively, to form the ipfs
   MerkleDAG.
 `)
 	}
