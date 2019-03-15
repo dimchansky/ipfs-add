@@ -62,6 +62,19 @@ func (f *IPFS) Add(ctx context.Context, r io.Reader) (*AddResult, error) {
 		Exec(ctx, &out)
 }
 
+// Cat the content at the given path. Callers need to drain and close the returned reader after usage.
+func (f *IPFS) Cat(ctx context.Context, path string) (io.ReadCloser, error) {
+	resp, err := f.request("cat", path).Send(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Error != nil {
+		return nil, resp.Error
+	}
+
+	return resp.Output, nil
+}
+
 type dagNode struct {
 	Data  string `json:"data"`
 	Links []Link `json:"links"`
@@ -87,6 +100,12 @@ func (f *IPFS) DagPutLinks(ctx context.Context, links []Link) (Cid, error) {
 		Option("pin", true).
 		Body(bytes.NewBuffer(dagJSONBytes)).
 		Exec(ctx, &out)
+}
+
+// DagGetLinks gets directory links.
+func (f *IPFS) DagGetLinks(ctx context.Context, cid Cid) ([]Link, error) {
+	var out dagNode
+	return out.Links, f.request("dag/get", cid.String()).Exec(ctx, &out)
 }
 
 // ObjectStat provides information about dag nodes
