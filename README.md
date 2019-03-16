@@ -28,18 +28,21 @@ Adding current directory to IPFS:
 
 ```bash
 > ipfs-add .
-    added QmctKt7CJDnmxdj7hRYXyqsLFMeEvpJt5qV6qdMprtcyop folder/1375 - Astronaut Vandalism - alt.txt
-    added QmXR6qCcJxy3P7TsqxodBgqMbSZCZBqdSNEmzHPzdfagub folder/1375 - Astronaut Vandalism - transcript.txt
-    added QmNTh4Er9bxYq6ULd4reHPkoPiPwVbXN8YqJHrnfkQy7RH folder/1375 - Astronaut Vandalism.png
-    added QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F folder
+added QmctKt7CJDnmxdj7hRYXyqsLFMeEvpJt5qV6qdMprtcyop folder/1375 - Astronaut Vandalism - alt.txt
+added QmXR6qCcJxy3P7TsqxodBgqMbSZCZBqdSNEmzHPzdfagub folder/1375 - Astronaut Vandalism - transcript.txt
+added QmNTh4Er9bxYq6ULd4reHPkoPiPwVbXN8YqJHrnfkQy7RH folder/1375 - Astronaut Vandalism.png
+added QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F folder
 ```
 
 You can now refer to the added directories or files in a gateway, like so:
 
 - Folder
-  https://ipfs.infura.io/ipfs/QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F
+
+    https://ipfs.infura.io/ipfs/QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F
+    
 - File in folder
-  https://ipfs.infura.io/ipfs/QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F/1375%20-%20Astronaut%20Vandalism.png
+
+    https://ipfs.infura.io/ipfs/QmdGnC6rtZ7K7ERKnHuZCZcztbv9ZhBvsobHdgCowmX59F/1375%20-%20Astronaut%20Vandalism.png
 
 You can also use [any other IPFS gateway](https://ipfs.github.io/public-gateway-checker/) instead of 
 `https://ipfs.infura.io/` like:
