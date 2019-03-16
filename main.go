@@ -59,13 +59,15 @@ func (a *pathAdder) AddPath(ctx context.Context, fPath string) error {
 		return err
 	}
 
-	fName := path.Base(fPath)
-	if stat.IsDir() {
-		_, err := a.addDir(ctx, fName, fPath)
-		return err
-	}
-	_, err = a.addFile(ctx, fName, fPath)
+	_, err = a.add(ctx, stat, path.Base(fPath), fPath)
 	return err
+}
+
+func (a *pathAdder) add(ctx context.Context, fi os.FileInfo, fName, fPath string) (*ipfs.AddResult, error) {
+	if fi.IsDir() {
+		return a.addDir(ctx, fName, fPath)
+	}
+	return a.addFile(ctx, fName, fPath)
 }
 
 func (a *pathAdder) addDir(ctx context.Context, fName, fPath string) (*ipfs.AddResult, error) {
@@ -81,16 +83,10 @@ func (a *pathAdder) addDir(ctx context.Context, fName, fPath string) (*ipfs.AddR
 			continue
 		}
 
-		var addFun func(context.Context, string, string) (*ipfs.AddResult, error)
-		if f.IsDir() {
-			addFun = a.addDir
-		} else {
-			addFun = a.addFile
-		}
-
 		fileName := filepath.ToSlash(filepath.Join(fName, shortFName))
 		filePath := filepath.ToSlash(filepath.Join(fPath, shortFName))
-		res, err := addFun(ctx, fileName, filePath)
+
+		res, err := a.add(ctx, f, fileName, filePath)
 		if err != nil {
 			return nil, err
 		}
