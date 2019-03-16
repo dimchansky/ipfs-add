@@ -37,7 +37,7 @@ func Parse() *Config {
 	flag.CommandLine.Usage = func() {
 		out := flag.CommandLine.Output()
 		_, _ = fmt.Fprintf(out, `USAGE:
-  %s: [options] <path>...
+  %s [options] <path>...
 
 ARGUMENTS
 
