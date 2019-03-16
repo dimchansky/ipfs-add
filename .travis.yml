@@ -1,0 +1,25 @@
+language: go
+sudo: false
+
+go:
+  - 1.12
+
+cache:
+  directories:
+    - vendor
+
+env:
+  global:
+    - ARTIFACTS_DIR=artifacts
+
+install:
+  - make dependencies
+
+script:
+  - make lint
+  - make test
+
+after_success:
+  - make cover
+  - bash <(curl -s https://codecov.io/bash) -s ./${ARTIFACTS_DIR}/.cover
+  - make buildx
