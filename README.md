@@ -1,4 +1,13 @@
-# ipfs-add
+# ipfs-add [![GoDoc][1]][2] [![Build Status][3]][4] [![Go Report Card][5]][6] [![Coverage Status][7]][8]
+           
+[1]: https://godoc.org/github.com/dimchansky/ipfs-add?status.svg
+[2]: https://godoc.org/github.com/dimchansky/ipfs-add
+[3]: https://travis-ci.org/dimchansky/ipfs-add.svg?branch=master
+[4]: https://travis-ci.org/dimchansky/ipfs-add
+[5]: https://goreportcard.com/badge/github.com/dimchansky/ipfs-add
+[6]: https://goreportcard.com/report/github.com/dimchansky/ipfs-add
+[7]: https://codecov.io/gh/dimchansky/ipfs-add/branch/master/graph/badge.svg
+[8]: https://codecov.io/gh/dimchansky/ipfs-add
 
 Tool to add a file or directory to IPFS. It acts like `ipfs add` command, but you don't 
 need IPFS node running on your local machine. By default it uses Infura nodes (`https://ipfs.infura.io:5001`)
