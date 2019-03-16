@@ -1,0 +1,14 @@
+package: github.com/dimchansky/ipfs-add
+import:
+- package: golang.org/x/tools
+  subpackages:
+  - cmd/goimports
+- package: golang.org/x/lint
+  subpackages:
+  - golint
+- package: honnef.co/go/tools
+  version: ^2019.1.0
+  subpackages:
+  - cmd/staticcheck
+- package: github.com/BurntSushi/toml
+  version: ^0.3.1

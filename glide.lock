@@ -1,0 +1,18 @@
+hash: 34a86fec6dc731a0eb95116a4478fadd75036888fbd58d19c72e5598c076919f
+updated: 2019-03-16T11:01:08.552202+02:00
+imports:
+- name: github.com/BurntSushi/toml
+  version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
+- name: golang.org/x/lint
+  version: 8f45f776aaf18cebc8d65861cc70c33c60471952
+  subpackages:
+  - golint
+- name: golang.org/x/tools
+  version: 139d099f662071f73eab0df7b7fdf9682c8f9e91
+  subpackages:
+  - cmd/goimports
+- name: honnef.co/go/tools
+  version: 95959eaf5e3c41c66151dcfd91779616b84077a8
+  subpackages:
+  - cmd/staticcheck
+testImports: []

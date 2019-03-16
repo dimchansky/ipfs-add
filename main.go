@@ -22,7 +22,7 @@ func main() {
 func run() error {
 	cfg := config.Parse()
 
-	c := ipfs.New(cfg.Node)
+	c := ipfs.New(cfg.IPFSNode)
 	a := pathAdder{c, cfg.HandleHiddenFiles}
 
 	ctx := context.Background()
@@ -63,10 +63,9 @@ func (a *pathAdder) AddPath(ctx context.Context, fPath string) error {
 	if stat.IsDir() {
 		_, err := a.addDir(ctx, fName, fPath)
 		return err
-	} else {
-		_, err := a.addFile(ctx, fName, fPath)
-		return err
 	}
+	_, err = a.addFile(ctx, fName, fPath)
+	return err
 }
 
 func (a *pathAdder) addDir(ctx context.Context, fName, fPath string) (*ipfs.AddResult, error) {
