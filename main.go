@@ -19,7 +19,11 @@ func main() {
 func run() error {
 	cfg := config.Parse()
 
-	c := ipfs.New(cfg.IPFSNode)
+	c, err := ipfs.New(cfg.IPFSNode)
+	if err != nil {
+		return err
+	}
+
 	a := pathadder.New(c, cfg.HandleHiddenFiles)
 
 	ctx := context.Background()

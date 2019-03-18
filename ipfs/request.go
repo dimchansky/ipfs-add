@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -25,10 +26,9 @@ type request struct {
 }
 
 func (f *IPFS) request(command string, args ...string) *request {
-	uri := f.url
-	if !strings.HasPrefix(uri, "http") {
-		uri = "http://" + uri
-	}
+	uri := *f.url
+	uri.Path = path.Join(uri.Path, "/api/v0")
+	apiBase := uri.String()
 
 	opts := map[string]string{
 		"encoding":        "json",
@@ -37,7 +37,7 @@ func (f *IPFS) request(command string, args ...string) *request {
 
 	return &request{
 		c:       f.httpcli,
-		apiBase: uri + "/api/v0",
+		apiBase: apiBase,
 		command: command,
 		args:    args,
 		opts:    opts,

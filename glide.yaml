@@ -12,3 +12,7 @@ import:
   - cmd/staticcheck
 - package: github.com/BurntSushi/toml
   version: ^0.3.1
+- package: github.com/dnaeon/go-vcr
+  version: ^1.0.1
+  subpackages:
+  - recorder

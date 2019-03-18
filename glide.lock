@@ -1,8 +1,13 @@
-hash: 34a86fec6dc731a0eb95116a4478fadd75036888fbd58d19c72e5598c076919f
-updated: 2019-03-16T11:01:08.552202+02:00
+hash: 25657d95e3dc859cbd569efb9e83384540f0028e949430fa0a5f15b16edaab95
+updated: 2019-03-18T15:13:14.875225+02:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
+- name: github.com/dnaeon/go-vcr
+  version: b3f5a17c396f1f45e232e36c6eed2577da52d22a
+  subpackages:
+  - cassette
+  - recorder
 - name: golang.org/x/lint
   version: 8f45f776aaf18cebc8d65861cc70c33c60471952
   subpackages:
@@ -11,6 +16,8 @@ imports:
   version: 139d099f662071f73eab0df7b7fdf9682c8f9e91
   subpackages:
   - cmd/goimports
+- name: gopkg.in/yaml.v2
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
 - name: honnef.co/go/tools
   version: 95959eaf5e3c41c66151dcfd91779616b84077a8
   subpackages:

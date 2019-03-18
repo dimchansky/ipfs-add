@@ -7,16 +7,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+	"strings"
 )
 
 // IPFS provides limited functionality to interact with the IPFS (https://ipfs.io)
 type IPFS struct {
-	url     string
+	url     *url.URL
 	httpcli *http.Client
 }
 
 // New creates new instance of IPFS from the provided url
-func New(url string) *IPFS {
+func New(url string) (*IPFS, error) {
 	c := &http.Client{
 		Transport: &http.Transport{
 			Proxy:             http.ProxyFromEnvironment,
@@ -28,11 +30,19 @@ func New(url string) *IPFS {
 }
 
 // NewWithClient creates new instance of IPFS from the provided url and http.Client
-func NewWithClient(url string, c *http.Client) *IPFS {
-	return &IPFS{
-		url:     url,
-		httpcli: c,
+func NewWithClient(uri string, c *http.Client) (*IPFS, error) {
+	if !strings.HasPrefix(uri, "http") {
+		uri = "http://" + uri
 	}
+	u, err := url.Parse(uri)
+	if err != nil {
+		return nil, err
+	}
+
+	return &IPFS{
+		url:     u,
+		httpcli: c,
+	}, nil
 }
 
 // AddResult contains result of AddResult command
